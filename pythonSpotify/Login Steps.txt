@@ -1,0 +1,44 @@
+# HOW TO LOGIN TO SPOTIFY & LASTFM API
+
+import spotipy
+import spotipy.util as util
+import pylast
+
+# Spotify username
+username = 'USERNAME'
+# Spotify scope
+scope = 'user-read-currently-playing'
+# Spotify client ID
+c_id = 'CLIENT_ID'
+# Spotify client secret
+c_secret = 'CLIENT_SECRET'
+# Spotify redirect URI
+redirect_URI = 'http://localhost:8888/callback'
+
+token = util.prompt_for_user_token(
+    username,
+    scope,
+    client_id=c_id,
+    client_secret=c_secret,
+    redirect_uri=redirect_URI)
+
+spotify = spotipy.Spotify(auth=token)
+
+# LastFM Info:
+# LastFM username
+username = "USERNAME"
+# LastFM password
+password_hash = pylast.md5("PASSWORD")
+# LastFM api key
+API_KEY = 'API_KEY'
+# LastFM api secret
+API_SECRET = 'API_SECRET'
+
+network = pylast.LastFMNetwork(
+    api_key=API_KEY,
+    api_secret=API_SECRET,
+    username=username,
+    password_hash=password_hash)
+
+
+
