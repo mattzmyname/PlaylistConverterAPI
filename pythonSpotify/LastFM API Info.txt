@@ -1,0 +1,9 @@
+LastFM API Info
+
+Application name: tag finder
+
+API key: 9fb2ee7a3b730de8f8f0965c94e727bf
+
+Shared secret: 1c9e946524aa297b5f5f96bb5445367f
+
+Registered to: jowpow
