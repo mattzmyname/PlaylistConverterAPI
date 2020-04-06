@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'qqd#$jlk@0co!&l4nekyb!%24%#1sg&ysdy-8m%e1zt8w(0lxa'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -79,11 +79,11 @@ DATABASES = {
 	# }
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'playlist_db',
-		'USER': 'admin',
-		'PASSWORD': 'M1jn8E&8M9dt&MPCduGo',
-		'HOST': 'db-1.cztzalypzdly.us-east-1.rds.amazonaws.com',
-		'PORT': '3306',
+		'NAME': os.getenv('RDS_DB_NAME'),
+		'USER': os.getenv('RDS_USERNAME'),
+		'PASSWORD': os.getenv('RDS_PASSWORD'),
+		'HOST': os.getenv('RDS_HOSTNAME'),
+		'PORT': os.getenv('RDS_PORT'),
 		'OPTIONS': {
 			'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
 		}
