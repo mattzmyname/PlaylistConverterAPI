@@ -2,7 +2,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from .data_api import spotify
 from .serializers import *
+from .utils import getOrCreateRelationship
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -44,6 +46,21 @@ def hello_world(request):
 
 
 @api_view(['GET'])
-def playlistParse(request):
-	print(request)
-	return hello_world(request)
+def playlistParse(request, platform=None):
+	if 'url' in request.query_params and platform.lower() == 'spotify':
+		playlist = request.query_params['url']
+		client = spotify.Spotify()  # pass auth as env variable
+		try:
+			songList = client.parsePlaylist(playlist)
+			response_list = []
+			for song in songList:
+				song.id = getOrCreateRelationship(song.id, song.platform)
+				serializer = SongSerializer(data=vars(song))
+				if serializer.is_valid(raise_exception=False):
+					serializer.save()
+				response_list.append(serializer.data)
+
+			return Response({"Songs": response_list, "playlist_size": len(response_list)})
+		except Exception as e:
+			return Response({'error': str(e)}, status=500)
+	return Response({"error": "playlist url not found"})

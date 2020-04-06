@@ -1,6 +1,7 @@
 import spotipy
-from Spotify_Song import Spotify_Song
 from spotipy.oauth2 import SpotifyClientCredentials
+
+from .Spotify_Song import Spotify_Song
 
 
 class Spotify(object):

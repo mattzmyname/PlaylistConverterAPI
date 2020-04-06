@@ -1,11 +1,12 @@
 from datetime import datetime
 
-from Song import Song
+from .Song import Song
 
 
 class Spotify_Song(Song):
 	def __init__(self, track_json=None):
 		super().__init__(track_json)
+		self.platform = "Spotify"
 		self.query_keywords = {'name': 'getName',
 		                       'artists': 'getArtists',
 		                       'album': 'getAlbum',
@@ -23,6 +24,7 @@ class Spotify_Song(Song):
 			for keyword in self.query_keywords.keys():
 				if keyword in track_json:
 					getattr(self, self.query_keywords[keyword])(track_json[keyword])
+					continue
 				for children in children_nodes:
 					if keyword in track_json[children]:
 						getattr(self, self.query_keywords[keyword])(track_json[children][keyword])
@@ -39,7 +41,7 @@ class Spotify_Song(Song):
 		self.track_number = track_num
 
 	def getArtists(self, artists):  # todo handle multiple artists
-		self.artists = [artist['name'] for artist in artists]
+		self.artists = [artist['name'] for artist in artists][0]
 
 	def getAlbum(self, album_json):
 		self.album = album_json['name']
@@ -49,9 +51,9 @@ class Spotify_Song(Song):
 
 	def getImage(self, images):  # todo handle mutiple images
 		try:
-			self.cover_image = images[0]['url']
+			self.cover_image_url = images[0]['url']
 		except:
 			print("missing image url")
 
 	def getDT(self, release):
-		self.dt = datetime.strptime(release, '%Y-%m-%d')
+		self.release_date = datetime.strptime(release, '%Y-%m-%d')

@@ -29,7 +29,7 @@ router.register(r'songs_by_platform', views.SongByPlatformViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('hello', views.hello_world),
-    path('playlist', views.playlistParse),
+    path('playlist/<platform>', views.playlistParse),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

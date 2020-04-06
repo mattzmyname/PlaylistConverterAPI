@@ -1,17 +1,17 @@
 from django.db import models
+from django_mysql.models import ListTextField
 
 
 class Song(models.Model):
 	# id field created by default
-	duration = models.IntegerField('Song duration (ms)', editable=False, default=0)
+	id = models.UUIDField(primary_key=True)
+	duration = models.IntegerField(default=0)
 	title = models.CharField('Title', max_length=100)
-	artists = models.TextField('Artist', blank=True)
+	artists = ListTextField(base_field=models.CharField(max_length=100))
 	album = models.CharField('Album name', max_length=100, blank=True)
 	track_number = models.SmallIntegerField('Track number', blank=True, null=True)
-	genre = models.CharField('Genre', max_length=50, blank=True)
-	release_date = models.DateTimeField(blank=True)
-	cover_image_url = models.ImageField('Cover image', upload_to='playlistAPI/static/assets',
-	                                    default='playlistAPI/static/assets/default_song_img.jpg')
+	release_date = models.DateTimeField(null=True)
+	cover_image_url = models.TextField('Cover image', default='playlistAPI/static/assets/default_song_img.jpg')
 	date_row_added = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
@@ -23,7 +23,7 @@ class Song(models.Model):
 
 class songsByPlatform(models.Model):
 	added_date = models.DateTimeField(auto_now_add=True)
-	songID = models.IntegerField(primary_key=True)
+	songID = models.UUIDField(primary_key=True)
 	spotifyID = models.TextField(blank=True)
 	appleID = models.TextField(blank=True)
 	youtubeID = models.TextField(blank=True)
