@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+	'aws_xray_sdk.ext.django.middleware.XRayMiddleware',
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
@@ -48,6 +49,11 @@ MIDDLEWARE = [
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+XRAY_RECORDER = {
+	'AWS_XRAY_TRACING_NAME': 'PlaylistConverter',
+	'PLUGINS': ('EC2Plugin', 'ElasticBeanstalkPlugin')
+}
 
 ROOT_URLCONF = 'playlistAPI.urls'
 

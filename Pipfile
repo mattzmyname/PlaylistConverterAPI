@@ -12,6 +12,7 @@ pillow = "*"
 mysqlclient = "*"
 spotipy = "*"
 django-mysql = "*"
+aws-xray-sdk = "*"
 
 [requires]
 python_version = "3.7"
