@@ -27,7 +27,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
 	'127.0.0.1',
 	'localhost',
-	'playlistconverter-env-1.eba-q6xmiane.us-east-1.elasticbeanstalk.com/',
+	'playlistconverter-env-1.eba-q6xmiane.us-east-1.elasticbeanstalk.com',
 	'54.174.5.210']
 
 # Application definition
