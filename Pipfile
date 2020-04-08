@@ -12,6 +12,7 @@ pillow = "*"
 mysqlclient = "*"
 spotipy = "*"
 django-mysql = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
