@@ -209,3 +209,4 @@ dmypy.json
 !.elasticbeanstalk/*.global.yml
 !/.ebextentions/django.config
 /.cache-mattzmyname
+/playlistAPI/api/migrations/

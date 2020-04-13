@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from .data_api import spotify
 from .serializers import *
-from .utils import getOrCreateRelationship, queryByAppSongID
+from .utils import getOrCreateRelationship, queryByAppSongID, addSongDB
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -64,11 +64,10 @@ def readPlaylist(request, platform):
 				songList = thisPlaylist.songs
 				response_list = []
 				for song in songList:
-					song.id = getOrCreateRelationship(song.id, song.platform)
-					serializer = SongSerializer(data=vars(song))
-					if serializer.is_valid(raise_exception=False):
-						serializer.save()
-					response_list.append(serializer.data)
+					song.appSong_id = getOrCreateRelationship(song.appSong_id, song.platform, song)
+					song_data = vars(song)
+					addSongDB(song_data)
+					response_list.append(song_data)
 				return Response({"Playlist Name": name, "Songs": response_list, "playlist_size": len(response_list)})
 			except Exception as e:
 				return Response({'error': str(e)}, status=500)
@@ -79,12 +78,20 @@ def readPlaylist(request, platform):
 
 
 def createPlaylist(postData, platform='spotify'):
-	if platform.lower() == 'spotify':
-		username = 'mattzmyname'
-		client = spotify.Spotify(username)
-		songIDs = [queryByAppSongID(song['id'], platform) for song in postData['Songs']]
-		client.createPlaylist(name=postData['Playlist Name'], songList=songIDs)
-		return Response({"message": 12})
+	if 'username' not in postData:
+		return Response({"error": f"Post requires 'username' key-value"})
+	if 'Playlist Name' not in postData:
+		return Response({"error": f"Post requires 'Playlist Name' key-value"})
+	if 'Songs' not in postData:
+		return Response({"error": f"Post requires 'Songs' key-value"})
 
+	if platform.lower() == 'spotify':
+		username = postData['username']
+		client = spotify.Spotify(username)
+		playlistName = postData['Playlist Name']
+		songIDs = [queryByAppSongID(song['id'], platform) for song in postData['Songs']]
+		if client.createPlaylist(name=playlistName, songList=songIDs):
+			return Response({"message": f"Created playlist {playlistName} for {username}"})
+		return Response({"error": f"Failed to create playlist {playlistName} for {username}"})
 	else:
 		return Response({"error": f"Platform {platform} not supported"})

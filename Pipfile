@@ -13,7 +13,7 @@ mysqlclient = "*"
 spotipy = "*"
 django-mysql = "*"
 gunicorn = "*"
-requests = "*"
+youtube-python = "*"
 
 [requires]
 python_version = "3.7"

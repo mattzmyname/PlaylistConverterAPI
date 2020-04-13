@@ -35,7 +35,7 @@ class Spotify_Song(Song):
 		self.title = name
 
 	def getID(self, id):
-		self.id = id
+		self.appSong_id = id
 
 	def getTrackNum(self, track_num):
 		self.track_number = track_num

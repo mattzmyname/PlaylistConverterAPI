@@ -19,13 +19,13 @@ class Spotify(object):
 			else:
 				print("Can't get token for", username)
 
-	def createPlaylist(self, name="test1", songList=None):
+	def createPlaylist(self, name="sample playlist", songList=None):
 		if songList is None:
 			songList = []
 		if self.username:
 			newPlaylist = self.sp.user_playlist_create(user=self.username, name=name)
 			newPlaylistID = newPlaylist['id']
-			print(self.sp.user_playlist_add_tracks(self.username, newPlaylistID, songList))
+			self.sp.user_playlist_add_tracks(self.username, newPlaylistID, songList)
 			return True
 		return False
 

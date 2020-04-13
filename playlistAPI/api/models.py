@@ -4,7 +4,7 @@ from django_mysql.models import ListTextField
 
 class Song(models.Model):
 	# id field created by default
-	id = models.UUIDField(primary_key=True)
+	appSong_id = models.UUIDField(primary_key=True)
 	duration = models.IntegerField(default=0)
 	title = models.CharField('Title', max_length=100)
 	artists = ListTextField(base_field=models.CharField(max_length=100))
@@ -22,6 +22,7 @@ class Song(models.Model):
 
 
 class songsByPlatform(models.Model):
+	appSong = models.ForeignKey(Song, on_delete=models.CASCADE, null=True)
 	added_date = models.DateTimeField(auto_now_add=True)
 	songID = models.UUIDField(primary_key=True)
 	spotifyID = models.TextField(blank=True)

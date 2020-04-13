@@ -2,7 +2,7 @@ class Song(object):
 	def __init__(self, track_json=None):
 		self.platform = ""
 		self.duration = 0
-		self.id = 0
+		self.appSong_id = 0
 		self.title = ""
 		self.artists = []
 		self.album = ""
@@ -17,7 +17,7 @@ class Song(object):
 
 	def __repr__(self):
 		return (f'{self.__class__.__name__}('
-		        f'{self.platform} ID : {self.id!r},\n\t'
+		        f'{self.platform} ID : {self.appSong_id!r},\n\t'
 		        f'Title : {self.title!r},\n\t'
 		        f'Duration : {self.duration!r},\n\t'
 		        f'artists : {self.artists!r},\n\t'
